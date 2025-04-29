@@ -32,21 +32,45 @@ def Copiar_Arquivo(nome): #Vai adicionar cada item na lista_dados, de maneira or
 
 #Copiar_Arquivo('teste') #Para copiar o que está no arquivo
 
-Copiar_Arquivo('assunto')
-#2. Ler o arquivo
-def Ler_Arquivo(): #Vai ler o arquivo
-    '''
-    lista: lista que está registrada as informações
-    '''
-    for itens in lista_dados:
-        cor = 31
-        for item  in itens:    
-            print(f'\033[{cor}m{item:7}', end='    ')
-            cor += 1
-        print()
 
-def Simples_Arquivo():
-    Copiar_Arquivo('assunto')
+#2. Ler o arquivo
+def Ler_Arquivo(isEsp=False, isLoop=False): #Vai ler o arquivo
+    if isEsp: 
+        if isLoop: 
+            pos_esp = 0
+            for pos, itens in enumerate(lista_dados):
+                cor = 31
+                for item in itens:  
+                    if pos == pos_esp:
+                        print(f'\033[{cor}m{item:7}', end='    ')  
+
+                    cor += 1
+                print() 
+            pos_esp += 1
+        else: 
+            pos_esp = int(input('Digite a linha que deseja alterar: ')) - 1
+            for pos, itens in enumerate(lista_dados):
+                cor = 31
+                for item in itens:  
+                    if pos == pos_esp:
+                        print(f'\033[{cor}m{item:7}', end='    ')  
+
+                    cor += 1
+                print() 
+
+         
+    else:
+        for itens in lista_dados:
+            cor = 31
+            for item  in itens:    
+                print(f'\033[{cor}m{item:7}', end='    ')
+                cor += 1
+            print() 
+
+    
+
+def Simples_Arquivo(nome):
+    Copiar_Arquivo(f'{nome}')
     return lista_dados
 
 

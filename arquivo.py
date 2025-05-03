@@ -8,7 +8,7 @@ def Escrever_Arquivo(nome, conteudo, estilo): #serve para adicionar uma nova inf
     :param estilo: 0 para ';' e 1 para '\n'
     '''
 
-    with open(f'{nome}.txt', 'a') as arquivo: 
+    with open(f'{nome}.txt', 'a', encoding='utf-8') as arquivo: 
         if estilo == 0: 
             arquivo.write(f'{conteudo};')
         elif estilo == 1:
@@ -22,7 +22,7 @@ def Copiar_Arquivo(nome): #Vai adicionar cada item na lista_dados, de maneira or
     '''
     global lista_dados  # Garante que estamos alterando a variável global
     lista_dados.clear()
-    with open(f'{nome}.txt', 'r') as arquivo:
+    with open(f'{nome}.txt', 'r', encoding='utf-8') as arquivo:
         ler = arquivo.readlines()
         for termo in ler:
             termo = termo.replace('\n', '')
@@ -34,40 +34,33 @@ def Copiar_Arquivo(nome): #Vai adicionar cada item na lista_dados, de maneira or
 
 
 #2. Ler o arquivo
-def Ler_Arquivo(isEsp=False, isLoop=False): #Vai ler o arquivo
-    if isEsp: 
-        if isLoop: 
-            pos_esp = 0
-            for pos, itens in enumerate(lista_dados):
-                cor = 31
-                for item in itens:  
-                    if pos == pos_esp:
-                        print(f'\033[{cor}m{item:7}', end='    ')  
-
-                    cor += 1
-                print() 
-            pos_esp += 1
-        else: 
-            pos_esp = int(input('Digite a linha que deseja alterar: ')) - 1
-            for pos, itens in enumerate(lista_dados):
-                cor = 31
-                for item in itens:  
-                    if pos == pos_esp:
-                        print(f'\033[{cor}m{item:7}', end='    ')  
-
-                    cor += 1
-                print() 
-
-         
-    else:
-        for itens in lista_dados:
-            cor = 31
-            for item  in itens:    
-                print(f'\033[{cor}m{item:7}', end='    ')
-                cor += 1
-            print() 
+def Ler_Arquivo(): #Vai ler o arquivo
+    for v, itens in enumerate(lista_dados):
+        cor = 32
+        print(f'\033[1;31m{v+1:2}', end=' -> ') #Vai mostrar o número da linha
+        for item  in itens:    
+            print(f'\033[{cor}m{item:7}', end='    ')
+            cor += 1
+        print() 
 
     
+def Ler_Especifico_Arquivo(linha, coluna): #Vai ler o arquivo
+    #print(lista_dados[linha-1][coluna-1]) #Vai ler o arquivo e mostrar a informação desejada
+    if coluna == 0: 
+        '''Explicação: 
+        map(str, lista_dados[linha-1]) #Vai transformar cada item da lista em string
+        '; '.join(map(str, lista_dados[linha-1])) #Vai juntar os itens da lista com "; "
+        Pegue cada item da lista llinha_dados[linha-1] e transforme em string
+
+        '''
+        linha_lista = '; '.join(map(str, lista_dados[linha-1]))
+        return linha_lista
+    else: 
+        coluna_lista = lista_dados[linha-1][coluna-1]
+        return coluna_lista 
+
+
+
 
 def Simples_Arquivo(nome):
     Copiar_Arquivo(f'{nome}')
@@ -75,6 +68,7 @@ def Simples_Arquivo(nome):
 
 
 def Alterar_Arquivo(info, nome, linha, coluna): #Vai alterar a informação desejada
+    
     '''
     nome: nome do arquivo
     linha: linha que deseja alterar
@@ -86,7 +80,7 @@ def Alterar_Arquivo(info, nome, linha, coluna): #Vai alterar a informação dese
 
     #3.2 Reescrever toda a lista no arquivo novamente
 
-    with open(f'{nome}.txt', 'w') as arquivo:
+    with open(f'{nome}.txt', 'w', encoding='utf-8') as arquivo:
         for itens in lista_dados:
             for i, item in enumerate(itens):  # Loop com índice
                 if i > 0:

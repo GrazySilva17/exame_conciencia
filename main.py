@@ -11,12 +11,12 @@ arq.Copiar_Arquivo('base') #Copia os dados
 
 
 #Printar cada termo do arquivo base 
-for i in range(16): 
+quant_pec = len(arq.Simples_Arquivo('base'))
+for i in range(quant_pec): 
     ler = arq.Ler_Especifico_Arquivo(i, 0)
-    print(f'\033[7;35m{ler}\033[0m')
+    print(f'\033[7;35m{i+1} -> {ler}\033[0m')
     definir = str(input('Digite [S/N]: ')).strip().upper()[0]
     if definir == 'S':
         arq.Escrever_Arquivo('exame_conciencia', ler, 1) #Escrever o pecado selecionado no exame de consdiencia definitivo
-        print('Vá até o confessionário mais próximo!')
     else: 
         print('Amém')
